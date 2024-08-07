@@ -20,5 +20,3 @@ Este proyecto es una calculadora científica desarrollada en Android Studio util
    ```bash
    git clone https://github.com/tu-usuario/calculadora-cientifica.git
    ```
-
-
