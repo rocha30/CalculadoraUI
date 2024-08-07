@@ -1,4 +1,8 @@
+package com.example.calculadoraapp
 import java.util.Stack
+import kotlin.math.exp
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Calculadora {
 
@@ -25,7 +29,7 @@ class Calculadora {
                     output.append(' ').append(operators.pop())
                 }
                 if (operators.isEmpty() || operators.peek() != '(') {
-                    throw Exception("Expresión invalidad: los parentesís no coinciden")
+                    throw Exception("Expresión inválida: los paréntesis no coinciden")
                 }
                 operators.pop()
             } else if (isOperator(token)) {
@@ -39,7 +43,7 @@ class Calculadora {
 
         while (!operators.isEmpty()) {
             if (operators.peek() == '(') {
-                throw Exception("Expresión invalidad: los parentesís no coinciden")
+                throw Exception("Expresión inválida: los paréntesis no coinciden")
             }
             output.append(' ').append(operators.pop())
         }
@@ -59,7 +63,7 @@ class Calculadora {
                 values.push(token.toDouble())
             } else if (isOperator(token[0])) {
                 if (values.size < 2) {
-                    throw Exception("Expresión invalida: Valores insuficientes.")
+                    throw Exception("Expresión inválida: Valores insuficientes.")
                 }
                 val b = values.pop()
                 val a = values.pop()
@@ -68,7 +72,7 @@ class Calculadora {
         }
 
         if (values.size != 1) {
-            throw Exception("Expresión invalida: Valores insuficientes.")
+            throw Exception("Expresión inválida: Valores insuficientes.")
         }
 
         return values.pop()
@@ -104,16 +108,17 @@ class Calculadora {
             '-' -> a - b
             '*' -> a * b
             '/' -> {
-                if (b == 0.0) throw Exception("Division por cero")
+                if (b == 0.0) throw Exception("División por cero")
                 a / b
             }
-            '^' -> Math.pow(a, b)
+            '^' -> a.pow(b)
             '√' -> {
-                if (a < 0) throw Exception("Valor negativo de una raiz")
-                Math.sqrt(a)
+                if (a < 0) throw Exception("Valor negativo de una raíz")
+                sqrt(a)
             }
-            'e' -> a * Math.exp(b)
+            'e' -> a * exp(b)
             else -> throw Exception("Operador desconocido: $operator")
         }
     }
 }
+

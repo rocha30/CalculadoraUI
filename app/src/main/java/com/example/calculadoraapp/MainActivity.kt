@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private var operator = ""
     private var value1 = Double.NaN
     private var value2: Double = 0.0
+    private val calculator = Calculadora()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,19 +52,23 @@ class MainActivity : AppCompatActivity() {
 
         val listener = View.OnClickListener { v ->
             val b = v as Button
-            if (!value1.isNaN()) {
-                value2 = input.toDouble()
-                compute()
-                txt2.text = "$value1 $operator $value2 = $value1"
-            } else {
-                value1 = input.toDouble()
-            }
             operator = b.text.toString()
-            input = ""
+            input += operator
+            txt1.text = input
         }
 
         for (id in operatorButtons) {
             findViewById<Button>(id).setOnClickListener(listener)
+        }
+
+        findViewById<Button>(R.id.bot_igual).setOnClickListener {
+            try {
+                val result = calculator.evaluate(input)
+                txt2.text = result.toString()
+            } catch (e: Exception) {
+                txt2.text = e.message
+            }
+            input = ""
         }
 
         findViewById<Button>(R.id.button).setOnClickListener {
@@ -75,15 +80,7 @@ class MainActivity : AppCompatActivity() {
             txt2.text = ""
         }
     }
-
-    private fun compute() {
-        when (operator) {
-            "+" -> value1 += value2
-            "-" -> value1 -= value2
-            "*" -> value1 *= value2
-            "/" -> value1 /= value2
-        }
-    }
 }
+
 
 
