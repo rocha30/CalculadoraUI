@@ -11,9 +11,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var txt1: TextView
     private lateinit var txt2: TextView
     private var input = ""
-    private var operator = ""
-    private var value1 = Double.NaN
-    private var value2: Double = 0.0
     private val calculator = Calculadora()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +44,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOperatorButtonListeners() {
         val operatorButtons = arrayOf(
-            R.id.bot_mas, R.id.bot_menos, R.id.bot_mult, R.id.bot_div, R.id.bot_igual
+            R.id.bot_mas, R.id.bot_menos, R.id.bot_mult, R.id.bot_div,
+            R.id.bot_igual, R.id.bot_parentesis_abierto, R.id.bot_parentesis_cerrado,
+            R.id.bot_raiz, R.id.bot_exponencial, R.id.but_euler_elevadoX
         )
 
         val listener = View.OnClickListener { v ->
             val b = v as Button
-            operator = b.text.toString()
-            input += operator
+            input += b.text.toString()
             txt1.text = input
         }
 
@@ -72,15 +70,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.button).setOnClickListener {
-            value1 = Double.NaN
-            value2 = Double.NaN
             input = ""
-            operator = ""
             txt1.text = ""
             txt2.text = ""
         }
     }
 }
-
 
 

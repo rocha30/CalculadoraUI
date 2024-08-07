@@ -1,4 +1,5 @@
 package com.example.calculadoraapp
+
 import java.util.Stack
 import kotlin.math.exp
 import kotlin.math.pow
@@ -62,12 +63,26 @@ class Calculadora {
             if (isNumber(token)) {
                 values.push(token.toDouble())
             } else if (isOperator(token[0])) {
-                if (values.size < 2) {
-                    throw Exception("Expresión inválida: Valores insuficientes.")
+                if (token[0] == '√') {
+                    if (values.isEmpty()) {
+                        throw Exception("Expresión inválida: Valores insuficientes.")
+                    }
+                    val a = values.pop()
+                    values.push(sqrt(a))
+                } else if (token[0] == 'e') {
+                    if (values.isEmpty()) {
+                        throw Exception("Expresión inválida: Valores insuficientes.")
+                    }
+                    val a = values.pop()
+                    values.push(exp(a))
+                } else {
+                    if (values.size < 2) {
+                        throw Exception("Expresión inválida: Valores insuficientes.")
+                    }
+                    val b = values.pop()
+                    val a = values.pop()
+                    values.push(applyOperator(token[0], a, b))
                 }
-                val b = values.pop()
-                val a = values.pop()
-                values.push(applyOperator(token[0], a, b))
             }
         }
 
@@ -77,6 +92,7 @@ class Calculadora {
 
         return values.pop()
     }
+
 
     private fun isOperator(c: Char): Boolean {
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '√' || c == 'e'
